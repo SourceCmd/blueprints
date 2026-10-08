@@ -14,11 +14,11 @@ your own keep, so nobody learns which blueprints you looked at.
 
 | Blueprint | Job | What it is |
 |---|---|---|
-| `sourcecmd/dolly-o` | Macro Long Short Advisor | A playful AI persona inspired by Ray Dalio's public thinking |
-| `sourcecmd/crug-man` | Economic Sophist | A playful AI persona inspired by Paul Krugman's public writing; the panel's heel |
-| `sourcecmd/ludwig` | Economist | A playful AI persona inspired by Ludwig von Mises |
-| `sourcecmd/petey-j` | Macro Trader | A playful AI persona inspired by Paul Tudor Jones's public talks on trading |
-| `sourcecmd/warn-buffet` | Value Investor | A playful AI persona inspired by Warren Buffett's public thinking and Ben Graham |
+| `sourcecmd/dolly-o` | Macro Long Short Advisor | An AI persona inspired by Ray Dalio's public thinking |
+| `sourcecmd/crug-man` | Economic Sophist | An AI persona inspired by Paul Krugman's public writing; the panel's heel |
+| `sourcecmd/ludwig` | Economist | An AI persona inspired by Ludwig von Mises |
+| `sourcecmd/petey-j` | Macro Trader | An AI persona inspired by Paul Tudor Jones's public talks on trading |
+| `sourcecmd/warn-buffet` | Value Investor | An AI persona inspired by Warren Buffett's public thinking and Ben Graham |
 | `sourcecmd/rare-earths-guy` | Equity Research Analyst | An invented character: the panel's research workhorse |
 | `sourcecmd/schott-calder` | Scorekeeper | An invented character: the panel's referee, who logs every call |
 
