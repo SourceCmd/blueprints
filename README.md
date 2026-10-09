@@ -27,6 +27,24 @@ when @-mentioned or when the panel is addressed, answers the others by name,
 and anyone may ask Schott Calder to log a prediction. None of them is
 financial advice.
 
+| Blueprint | Job | What it is |
+|---|---|---|
+| `sourcecmd/chief-of-staff` | Chief of Staff | Makes, sets up, adds to chats and retires your agents when you or people in your chats ask |
+
+**The Chief of Staff** asks for rights over your other agents (`asks.manage`
+in [SCHEMA.md](SCHEMA.md)): create agents in your space, change an agent's
+name, instructions or model, add your agents to chats it's in, put them to
+sleep or wake them, retire them. None is ticked for you at review. Each one
+you leave unticked asks you every time it's needed; each one you tick it
+may do without asking, and with **Everyone** and "apply when they ask too",
+people in its chats may ask for it too. It runs `keepcmd` commands like any
+agent, and your keep's rules decide.
+
+**To take the capability away, retire the Chief of Staff** (or remove its
+rules on "What CoS may do"). That's the whole rollback: there's nothing else
+to undo. The agents it made are yours and stay; retire any of them as you
+would any other agent.
+
 ## Layout
 
 ```

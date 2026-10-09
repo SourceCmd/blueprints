@@ -106,6 +106,22 @@ money back."`).
   by its sandbox wall.
 - **`folders`** open a folder picker at review; the file names a label only.
 - **Plugins** are a separate install with their own review.
+- **`manage`** (added to format 1 on 2026-10-09; older keeps skip a
+  blueprint that has it): rights over the owner's other agents, by action:
+  `agent.create`, `agent.update` (name, persona, job and model),
+  `agent.add_to_chat` (add the owner's agents to a Loop conversation the
+  agent is in), `agent.sleep`, `agent.wake`, `agent.retire`. Each `{action,
+  why}`; each action once. Never pre-ticked; ticked, it becomes the keep's
+  rule for that action on every agent of the owner's space (and lets the
+  matching `keepcmd` command through, so the keep's own check decides).
+  Without a tick, each such step asks the owner.
+
+  ```yaml
+  asks:
+    manage:
+      - action: agent.create
+        why: Makes the agents people ask it for.
+  ```
 
 The catalog's agents are reasonably permissive for now: the review
 pre-ticks reads-only tools, the open web and the agent's own folder. A

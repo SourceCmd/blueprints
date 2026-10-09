@@ -69,7 +69,11 @@ TOP = {"kind", "format", "id", "version", "display_name", "summary", "tags",
 AGENT = {"name", "persona", "job", "instructions"}
 RUNS_ON = {"harnesses", "model", "prefer_models"}
 SKILL = {"skill", "version"}
-ASKS = {"tools", "network", "own_folder", "folders"}
+ASKS = {"tools", "network", "own_folder", "folders", "manage"}
+# Management asks (added to format 1, 2026-10-09): rights over the owner's
+# agents, by the keep's entity action. Never pre-ticked at review.
+MANAGE = {"action", "why"}
+MANAGE_ACTIONS = ["agent.create", "agent.update", "agent.add_to_chat", "agent.sleep", "agent.wake", "agent.retire"]
 TOOL = {"tool", "pattern", "why"}
 NETWORK = {"open", "host", "category", "why"}
 OWN_FOLDER = {"access", "why"}
@@ -286,6 +290,17 @@ def validate(doc, p):
             p.add("asks.folders[%d].label must be a label, never a path" % i)
         check_text(p, "asks.folders[%d].why" % i, f.get("why"), 300, True)
 
+    seen_manage = set()
+    for i, m in enumerate(as_list(p, asks.get("manage"), "asks.manage")):
+        m = check_keys(p, m, MANAGE, "asks.manage[%d]" % i)
+        if m.get("action") not in MANAGE_ACTIONS:
+            p.add("asks.manage[%d].action must be one of %s" % (i, ", ".join(MANAGE_ACTIONS)))
+        elif m["action"] in seen_manage:
+            p.add("asks.manage action %s is listed twice" % m["action"])
+        else:
+            seen_manage.add(m["action"])
+        check_text(p, "asks.manage[%d].why" % i, m.get("why"), 300, True)
+
     needs = check_keys(p, doc.get("needs") or {}, NEEDS, "needs")
     for i, pl in enumerate(as_list(p, needs.get("plugins"), "needs.plugins")):
         pl = check_keys(p, pl, PLUGIN, "needs.plugins[%d]" % i)
@@ -317,6 +332,8 @@ def texts(doc):
         out.append(("asks.own_folder.why", asks["own_folder"].get("why")))
     for i, f in enumerate(asks.get("folders") or []):
         out += [("asks.folders[%d].label" % i, f.get("label")), ("asks.folders[%d].why" % i, f.get("why"))]
+    for i, m in enumerate(asks.get("manage") or []):
+        out.append(("asks.manage[%d].why" % i, m.get("why")))
     for i, pl in enumerate((doc.get("needs") or {}).get("plugins") or []):
         out.append(("needs.plugins[%d].why" % i, pl.get("why")))
     return [(k, v) for k, v in out if isinstance(v, str)]
@@ -367,6 +384,8 @@ def ask_report(doc):
         out.append("its own folder, " + asks["own_folder"]["access"])
     for f in asks.get("folders") or []:
         out.append("a folder the owner picks (%s), %s" % (f["label"], f["access"]))
+    for m in asks.get("manage") or []:
+        out.append("manage: " + m["action"])
     for pl in (doc.get("needs") or {}).get("plugins") or []:
         out.append("plugin " + pl["plugin"] + (", optional" if pl.get("optional") else ""))
     return out
