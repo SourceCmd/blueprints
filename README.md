@@ -30,6 +30,7 @@ financial advice.
 | Blueprint | Job | What it is |
 |---|---|---|
 | `sourcecmd/chief-of-staff` | Chief of Staff | Makes, sets up, adds to chats and retires your agents when you or people in your chats ask |
+| `sourcecmd/rally` | Court booker | Finds, books and cancels courts at your racquet club when you or your playing partners ask in a chat; every booking and cancellation asks you first. Needs the `verge_labs/club_automation` plugin |
 
 **The Chief of Staff** asks for rights over your other agents (`asks.manage`
 in [SCHEMA.md](SCHEMA.md)): create agents in your space, change an agent's
