@@ -106,6 +106,13 @@ money back."`).
   by its sandbox wall.
 - **`folders`** open a folder picker at review; the file names a label only.
 - **Plugins** are a separate install with their own review.
+- **`grant`** on a plugin (format 2, D-420; keeps that read only format 1
+  skip the blueprint): the level the job asks for on a connection of the
+  plugin, `reads` (the default: its read verbs run freely, anything that
+  changes asks the owner each time) or `everything` (every verb runs
+  without asking; its `why` must say what it changes). The review line
+  is never pre-ticked; the owner picks a connection and may lower the
+  level, never raise it.
 - **`manage`** (added to format 1 on 2026-10-09; older keeps skip a
   blueprint that has it): rights over the owner's other agents, by action:
   `agent.create`, `agent.update` (name, persona, job and model),

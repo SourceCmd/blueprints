@@ -1,5 +1,5 @@
 kind: agent
-format: 1
+format: 2
 id: sourcecmd/rally
 version: 1.0.0
 display_name: Rally
@@ -82,3 +82,4 @@ needs:
     - plugin: verge_labs/club_automation
       actions: [list_options, list_slots, my_reservations, reserve_preview, reserve, cancel_check, cancel]
       why: Finds open courts, books and cancels them at your club. Booking and cancelling ask you every time.
+      grant: reads

@@ -47,7 +47,7 @@ BLUEPRINTS_DIR = os.path.join(REPO_ROOT, "blueprints")
 FILE_NAME = "blueprint.yaml"
 MAX_BYTES = 64 << 10
 
-FORMATS = {"agent": [1]}
+FORMATS = {"agent": [1, 2]}
 
 ID_RE = re.compile(r"^[a-z0-9][a-z0-9-]{0,39}/[a-z0-9][a-z0-9-]{0,63}$")
 SEMVER_RE = re.compile(r"^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$")
@@ -80,6 +80,10 @@ OWN_FOLDER = {"access", "why"}
 FOLDER = {"access", "label", "why"}
 NEEDS = {"plugins"}
 PLUGIN = {"plugin", "actions", "why", "optional"}
+# Format 2 (D-420) adds grant: the level the job asks for on a connection
+# of the plugin, reads (the default) or everything.
+PLUGIN_2 = PLUGIN | {"grant"}
+GRANTS = ["reads", "everything"]
 
 PERSONA_SECTION = "Who you are, and aren't"
 CHARACTER_SECTION = "Who you are"
@@ -170,7 +174,7 @@ def fold(s):
 
 
 def validate(doc, p):
-    """The format: SCHEMA.md, agent format 1."""
+    """The format: SCHEMA.md, agent formats 1 and 2."""
     if not isinstance(doc, dict):
         p.add("not a YAML mapping")
         return None
@@ -303,7 +307,7 @@ def validate(doc, p):
 
     needs = check_keys(p, doc.get("needs") or {}, NEEDS, "needs")
     for i, pl in enumerate(as_list(p, needs.get("plugins"), "needs.plugins")):
-        pl = check_keys(p, pl, PLUGIN, "needs.plugins[%d]" % i)
+        pl = check_keys(p, pl, PLUGIN_2 if fmt >= 2 else PLUGIN, "needs.plugins[%d]" % i)
         if not isinstance(pl.get("plugin"), str) or not SLUG_RE.match(pl["plugin"]):
             p.add("needs.plugins[%d].plugin must be a catalog slug (namespace/name)" % i)
         for a in as_list(p, pl.get("actions"), "needs.plugins[%d].actions" % i):
@@ -313,6 +317,8 @@ def validate(doc, p):
         if pl.get("optional") is not None and not isinstance(pl["optional"], bool):
             p.add("needs.plugins[%d].optional must be true or false" % i)
         check_text(p, "needs.plugins[%d].why" % i, pl.get("why"), 300, True)
+        if pl.get("grant") is not None and pl["grant"] not in GRANTS:
+            p.add("needs.plugins[%d].grant must be reads or everything" % i)
     return doc
 
 
